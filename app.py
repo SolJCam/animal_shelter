@@ -15,6 +15,10 @@ def index():
 def enter_room(room):
     return "Welcome to Queens animal shelter!!"
 
+@app.route("/admin_login")
+def admin_login():
+    return "Welcome to Queens animal shelter!!"
+
 @app.route("/<room>/<int:room_id>")
 def edit_room_name(post_id):
     return "Welcome to Queens animal shelter!!"

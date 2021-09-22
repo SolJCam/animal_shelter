@@ -7,7 +7,7 @@ class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15))
     number_of_cages = db.Column(db.Integer)
-    cage = db.relationship('Cage', backref='room', lazy=True)
+    cage = db.relationship('Cage', backref='Room', lazy=True)
 
     def __init__(self, name, number_of_cages):
         self.name = name
@@ -23,8 +23,8 @@ class Cage(db.Model):
     __tablename__ = 'Cage'
 
     id = db.Column(db.Integer, primary_key=True)
-    animal = db.relationship('Animal', backref='cage', lazy=True)
-    Room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
+    animal = db.relationship('Animal', backref='Cage', lazy=True)
+    Room_id = db.Column(db.Integer, db.ForeignKey('Room.id'), nullable=False)
 
     def __init__(self, animal, Room_id):
         self.animal = animal
@@ -44,7 +44,7 @@ class Animal(db.Model):
     age = db.Column(db.Integer)
     gender = db.Column(db.String(6))
     species = db.Column(db.String(15))
-    Cage_id = db.Column(db.Integer, db.ForeignKey('cage.id'), nullable=False)
+    Cage_id = db.Column(db.Integer, db.ForeignKey('Cage.id'), nullable=False)
 
     def __init__(self, name, age, gender, species):
         self.name = name
