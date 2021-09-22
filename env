@@ -1,3 +1,0 @@
-export FLASK_APP='app.py'
-export DATABASE_URL="postgresql:///animal_shelter"
-export APP_SETTINGS="config.DevelopmentConfig"

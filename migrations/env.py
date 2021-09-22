@@ -22,11 +22,9 @@ logger = logging.getLogger('alembic.env')
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<< STACK OVERFLOW SOLUTION (https://stackoverflow.com/questions/51783300/flask-migrate-no-changes-detected-to-schema-on-first-migration) 
-# for python3 manage.py db migrate returning alembic.env] No changes in schema detected >>>>>>>>>>>>>>>>>>>>>>>>>>
+# <<<<<<<<<<<<<<<<<STACK OVERFLOW SOLUTION FOR 'No changes in schema detected' error>>>>>>>>>>>>>>>>>>>>>>
 from models import Room, Cage, Animal, Admin
-#<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
+# <<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 from flask import current_app
 config.set_main_option(

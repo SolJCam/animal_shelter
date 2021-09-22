@@ -2,7 +2,7 @@ from app import db
 
 
 class Room(db.Model):
-    __tablename__ = 'Room'
+    __tablename__ = 'room'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15))
@@ -20,15 +20,15 @@ class Room(db.Model):
 
 
 class Cage(db.Model):
-    __tablename__ = 'Cage'
+    __tablename__ = 'cage'
 
     id = db.Column(db.Integer, primary_key=True)
+    cage_number = db.Column(db.Integer)
     animal = db.relationship('Animal', backref='Cage', lazy=True)
-    Room_id = db.Column(db.Integer, db.ForeignKey('Room.id'), nullable=False)
+    Room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
 
-    def __init__(self, animal, Room_id):
-        self.animal = animal
-        self.Room_id = Room_id
+    def __init__(self, cage_number):
+        self.cage_number = cage_number
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -37,14 +37,14 @@ class Cage(db.Model):
 
 
 class Animal(db.Model):
-    __tablename__ = 'Animal'
+    __tablename__ = 'animal'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15))
     age = db.Column(db.Integer)
     gender = db.Column(db.String(6))
     species = db.Column(db.String(15))
-    Cage_id = db.Column(db.Integer, db.ForeignKey('Cage.id'), nullable=False)
+    Cage_id = db.Column(db.Integer, db.ForeignKey('cage.id'), nullable=False)
 
     def __init__(self, name, age, gender, species):
         self.name = name
@@ -59,16 +59,14 @@ class Animal(db.Model):
 
 
 class Admin(db.Model):
-    __tablename__ = 'Admin'
+    __tablename__ = 'admin'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15))
-    email = db.Column(db.String(25), nullable=False, unique=True)
+    username = db.Column(db.String(25), nullable=False, unique=True)
     password = db.Column(db.String(15), nullable=False, unique=True)
 
-    def __init__(self, name, email, password):
-        self.name = name
-        self.email = email
+    def __init__(self, username, password):
+        self.username = username
         self.password = password
 
     def __repr__(self):
