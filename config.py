@@ -6,12 +6,12 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SECRET_KEY = os.getenv("SECRET_KEY", "this-is-the-default-key")
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = "postgresql:///animal_shelter"
 
 
-# class ProductionConfig(Config):
-#     DEBUG = False
+class ProductionConfig(Config):
+    DEBUG = False
 
 
 class DevelopmentConfig(Config):

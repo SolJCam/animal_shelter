@@ -22,9 +22,11 @@ logger = logging.getLogger('alembic.env')
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
+
 # <<<<<<<<<<<<<<<<<STACK OVERFLOW SOLUTION FOR 'No changes in schema detected' error>>>>>>>>>>>>>>>>>>>>>>
 from models import Room, Cage, Animal, Admin
 # <<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 from flask import current_app
 config.set_main_option(
