@@ -54,20 +54,3 @@ class Animal(db.Model):
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
-
-
-
-
-class Admin(db.Model):
-    __tablename__ = 'admin'
-
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(25), nullable=False, unique=True)
-    password = db.Column(db.String(15), nullable=False, unique=True)
-
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-
-    def __repr__(self):
-        return '<id {}>'.format(self.id)
