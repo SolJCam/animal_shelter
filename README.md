@@ -9,22 +9,22 @@ Users can update room names and add animals to the database.
 You will need to have a Postgres database, python3.9 and pip installed on you local drive.
 
 
-#### Step One: Cloning the database
+### Step One: Cloning the database
 
 Clone the repo, useing the following url:
 https://github.com/SolJCam/animal_shelter.git
 
 
-#### Step Two: Setting up Dependencies
+### Step Two: Setting up Dependencies
 
 From the directory where the repository was cloned, run the following command to install all necessary dependencies:
-pip install -r requirements.txt
+```pip install -r requirements.txt```
     
-*** It is strongly adivsed you set up a virtual environment to avoid installed packages from conflicting with other projects
-You can read more about virtual environments here: https://realpython.com/python-virtual-environments-a-primer/ ***
+**It is strongly adivsed you set up a virtual environment to avoid installed packages from conflicting with other projects
+You can read more about virtual environments here: https://realpython.com/python-virtual-environments-a-primer/**
 
 
-#### Step Three: Exporting Environment Variables
+### Step Three: Exporting Environment Variables
 
 Export the following environment variables - 
 
@@ -33,11 +33,11 @@ Export the following environment variables -
     export SECRET_KEY="this-is-a-secret-key"
 
 
-#### Step Four: Getting the Database Set Up
+### Step Four: Getting the Database Set Up
 
 part 1. Create a database called 'animal_shelter' through psql
 
-part 2. Run the following commands from within the project root:
+part 2. Run the following commands from within the project root directory:
 ```
 python manage.py db init
 python manage.py db migrate
@@ -50,7 +50,7 @@ python dummy_db_data.py
 ```
 
 You're All Set!!
-To start the server run the followin command from the project root:
+To start the server run the following command from the project root:
 ```
 FLASK_ENV=development flask run
 ```
