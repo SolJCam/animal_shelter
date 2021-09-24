@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>Document</title>
 </head>
 <body>
@@ -14,8 +16,9 @@
     <section class="ui attached segment segments">
     {% if cage_ids %}
         {% for key in cage_ids.keys() %} 
-        <div class="ui segment">  
+        <div style="width:95%" id="{{ room }} cage:{{ key }}" class="ui segment">  
             <h3>Shelter Cage {{ key }}</h3>
+            <button class="ui button" onclick="openModal(this)" value="{{ key }}">Add animal</button>
             {% for value in cage_ids[key] %}
             <div class="ui segment">
                 <p>Name: {{ value.name }}</p>
@@ -32,6 +35,50 @@
         <h1>There are no animals being kept in this room</h1>
     {% endif %}
     </section>
-    <footer></footer>
+    <div class="ui one column doubling stackable grid container modal">
+        <div class="column">
+            <h3>Animal Biographical Data Input Form</h3>
+            <h5 style="color:red">All fields are required</h5>
+            <form class="ui form" method="POST" action="/add_animal">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                <div class="field">
+                    {{ form.species.label }} {{ form.species(size=15) }}
+                </div>
+                <div class="field">
+                    {{ form.name.label }} {{ form.name(size=15) }}
+                </div>
+                    {{ form.age.label }} {{ form.age(size=15) }}
+                </div>
+                <div class="field">
+                    {{ form.gender.label }} {{ form.gender(size=1) }}
+                </div>
+                <div class="field">
+                    {{ form.cage.label }} {{ form.cage(size=1) }} <p id="selected-cage"></p>
+                </div>
+                <div>
+                    {% if form.cage.errors %}
+                        <ul class="errors">
+                        {% for error in form.cage %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+                <br>
+                <div>
+                    <button class="ui button" type="submit">Submit</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </div>
+    <script>
+        function openModal(ele){
+            const cage = $(ele).attr('value');
+            $("#selected-cage").html(`cage ${cage} currently selected`)
+            $('.ui.modal').modal('show');
+        };
+        $('.ui.radio.checkbox').checkbox();
+    </script>
 </body>
 </html>

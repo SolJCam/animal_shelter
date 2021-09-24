@@ -1,5 +1,6 @@
-from flask import Flask, session, render_template
+from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 import os, pdb
 
 app = Flask(__name__)
@@ -9,13 +10,17 @@ app.config.from_object(env_config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
-from models import Room, Cage, Animal, Admin
+csrf = CSRFProtect(app)
+
+from models import Room, Cage, Animal
+from forms import AnimalForm, RoomForm
 
 
 @app.route("/")
 def index():
     rooms = Room.query.all()
-    return render_template('index.html', rooms=rooms)
+    form = RoomForm(request.form)
+    return render_template('index.html', rooms=rooms, form=form)
 
 @app.route("/room/<room>")
 def enter_room(room):
@@ -29,21 +34,33 @@ def enter_room(room):
         if animals:
             cage_ids[cage.id] = animals
     # pdb.set_trace()
-    return render_template('room.html', cage_ids=cage_ids, room=room)
+    form = AnimalForm(request.form)
+    return render_template('room.html', cage_ids=cage_ids, room=room, form=form) 
 
-@app.route("/admin_login")
-def admin_login():
-    return "Hello admin"
+@app.route("/change_room_name", methods=['POST'])
+def change_room_name():
+    form = RoomForm(request.form)
+    if request.method == 'POST' and form.validate():
+        # pdb.set_trace()
+        room = Room.query.filter_by(name=form.current_name.data).first()
+        room.name = form.new_name.data
+        db.session.merge(room)
+        db.session.commit()
+    return redirect(url_for('index'))
 
-@app.route("/submit_credentials/<username>/<password>")
-def submit_credentials(username=None, password=None):
-    # bcrypt.check_password_hash(password, 'hunter2')
-    return "Sccuessfully logged in!"    
 
-@app.route("/<room>/<int:room_id>")
-def edit_room_name(post_id):
-    return "New name"
-
-@app.route("/add_animal")
+@app.route("/add_animal", methods=['POST'])
 def add_animal():
-    return "Added an animal!"
+    form = AnimalForm(request.form)
+    if request.method == 'POST' and form.validate():
+        # pdb.set_trace()
+        animal = Animal(
+            form.name.data, 
+            form.age.data,
+            form.gender.data,
+            form.species.data,
+        )
+        animal.Cage_id = form.cage.data
+        db.session.add(animal)
+        db.session.commit()
+    return redirect(url_for('index'))

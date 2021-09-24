@@ -5,7 +5,7 @@ class Room(db.Model):
     __tablename__ = 'room'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15))
+    name = db.Column(db.String(15), unique=True)
     number_of_cages = db.Column(db.Integer)
     cage = db.relationship('Cage', backref='Room', lazy=True)
 

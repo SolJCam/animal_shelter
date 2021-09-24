@@ -7,6 +7,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     # SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SECRET_KEY = os.getenv("SECRET_KEY", "this-is-a-secret-key")
     SQLALCHEMY_DATABASE_URI = "postgresql:///animal_shelter"
 
 

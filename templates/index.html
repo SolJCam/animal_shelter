@@ -7,6 +7,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body>
         <header class="ui top attached center aligned header">
@@ -16,12 +18,48 @@
         {% for room in rooms %}
             <section class="ui segment">
                 <h3>Room name: <a href="/room/{{room.name}}">{{ room.name }}</a></h3>
-                <p>Number of cages: {{ room.number_of_cages }}</p>
+                <button class="mini ui brown basic right floated button" onclick="openModal(this)" value="{{ room.name }}">Change Room Name</button>
+                <div class="ui one column doubling stackable grid container modal">
+                    <div class="column">
+                        <h3>Change Name Form</h3>
+                        <form class="ui form" method="POST" action="/change_room_name">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                            <div class="field">
+                                {{ form.current_name.label }} {{ form.current_name(size=15) }}
+                            </div>
+                            <div class="field">
+                                {{ form.new_name.label }} {{ form.new_name(size=15) }}
+                            </div>
+                            <br>
+                            <div>
+                                <button class="ui button" type="submit">Submit</button>
+                            </div>
+                            <br>
+                        </form>
+                    </div>
+                </div>
+            <!-- <p>Total cages: {{ room.number_of_cages }}</p> -->
             </section>
             <br>
         {% endfor %}
         </div>
         <footer></footer>
-        <script src="" async defer></script>
+        <script>
+            let currentName = ''
+            let userInputName = ''
+            function openModal(ele){
+                currentName = $(ele).attr('value');
+                $('.ui.modal').modal('show');
+            };
+            function confirmName(e){
+                userInputName = $('#current_name').val();
+                debugger
+                if(currentName != userInputName){
+                    e.preventDefault();
+                    $('#current_name').css("background-color","red");
+                    alert("The current room name you entered doesn't match. Please try again");
+                }
+            }
+        </script>
     </body>
 </html>
