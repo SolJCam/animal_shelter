@@ -11,7 +11,7 @@ You will need to have a Postgres database, python3.9 and pip installed on you lo
 
 ### Step One: Cloning the database
 
-Clone the repo, useing the following url:
+Clone the repo, using the following url:
 https://github.com/SolJCam/animal_shelter.git
 
 
@@ -20,13 +20,13 @@ https://github.com/SolJCam/animal_shelter.git
 From the directory where the repository was cloned, run the following command to install all necessary dependencies:
 ```pip install -r requirements.txt```
     
-**It is strongly adivsed you set up a virtual environment to avoid installed packages from conflicting with other projects
+**It is strongly adivsed you set up a virtual environment to avoid installed packages from conflicting with other python projects you may have on your harddrive.
 You can read more about virtual environments here: https://realpython.com/python-virtual-environments-a-primer/**
 
 
 ### Step Three: Exporting Environment Variables
 
-Export the following environment variables - 
+Export the following environment variables: 
 
     export DATABASE_URL="postgresql:///animal_shelter"
     export APP_SETTINGS="config.DevelopmentConfig"
@@ -35,22 +35,18 @@ Export the following environment variables -
 
 ### Step Four: Getting the Database Set Up
 
-part 1. Create a database called 'animal_shelter' through psql
+#### part 1. Create a database called 'animal_shelter' through psql
 
-part 2. Run the following commands from within the project root directory:
+#### part 2. Run the following commands from within the project root directory:
 ```
 python manage.py db init
 python manage.py db migrate
 python manage.py db upgrade
 ```
 
-part 3. Populate the database with dummy starter data
-``` 
-python dummy_db_data.py 
-```
+#### part 3. Populate the database with dummy starter data 
+```python dummy_db_data.py```
 
 You're All Set!!
 To start the server run the following command from the project root:
-```
-FLASK_ENV=development flask run
-```
+```FLASK_ENV=development flask run```
