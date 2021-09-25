@@ -4,7 +4,9 @@ Animal Shelter is an admin dashboard that allows the user to enter different roo
 Users can update room names and add animals to the database.
 
 
-## Before getting started...
+## Getting Started
+
+### Before getting started...
 
 You will need to have a Postgres database, python3.9 and pip installed on you local drive.
 
