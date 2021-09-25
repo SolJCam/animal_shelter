@@ -17,7 +17,7 @@ https://github.com/SolJCam/animal_shelter.git
 
 ### Step Two: Setting up Dependencies
 
-From the directory where the repository was cloned, run the following command to install all necessary dependencies:
+On the command line in the project's root directory, run the following command to install all necessary dependencies:
 ```pip install -r requirements.txt```
     
 **It is strongly adivsed you set up a virtual environment to avoid installed packages from conflicting with other python projects you may have on your harddrive.
@@ -26,7 +26,7 @@ You can read more about virtual environments here: https://realpython.com/python
 
 ### Step Three: Exporting Environment Variables
 
-Export the following environment variables: 
+In the root directory, export the following environment variables: 
 
     export DATABASE_URL="postgresql:///animal_shelter"
     export APP_SETTINGS="config.DevelopmentConfig"
@@ -37,7 +37,7 @@ Export the following environment variables:
 
 #### part 1. Create a database called 'animal_shelter' through psql
 
-#### part 2. Run the following commands from within the project root directory:
+#### part 2. Run the following commands from within the project root:
 ```
 python manage.py db init
 python manage.py db migrate
@@ -47,6 +47,15 @@ python manage.py db upgrade
 #### part 3. Populate the database with dummy starter data 
 ```python dummy_db_data.py```
 
-You're All Set!!
+### You're All Set!!
 To start the server run the following command from the project root:
 ```FLASK_ENV=development flask run```
+
+## Stack
+- Flask
+- Flask-SQLAlchemy
+- Flask-WTF
+- WTForms
+- psql
+- semantic-ui
+- jQuery
