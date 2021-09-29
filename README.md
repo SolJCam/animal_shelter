@@ -32,8 +32,9 @@ In the root directory, export the following environment variables:
 
     export DATABASE_URL="postgresql:///animal_shelter"
     export APP_SETTINGS="config.DevelopmentConfig"
-    export SECRET_KEY="this-is-a-secret-key"
+    export SECRET_KEY="you-need-to-update-this"
 
+***Yes the string passed to ```SECRET_KEY``` is a hint; you should update this with your own value***
 
 ### Step Four: Getting the Database Set Up
 
@@ -50,8 +51,8 @@ python manage.py db upgrade
 ```python dummy_db_data.py```
 
 ### You're All Set!!
-To start the server run the following command from the project root:
-```FLASK_ENV=development flask run```
+To start the prdoduction server run the following command from the project root:
+```flask run```
 
 ## Stack
 - Flask

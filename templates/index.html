@@ -14,6 +14,11 @@
         <header class="ui top attached center aligned header">
             <h1>Welcome To Queens Animal Shelter Admin Dashboard</h1>
         </header>
+        {% if error %}
+        <div id="error">
+            <p style="background-color:red">{{ error }}</p>
+        </div>
+        {% endif %}
         <div class="ui attached segment segments">
         {% for room in rooms %}
             <section class="ui segment">
@@ -38,28 +43,15 @@
                         </form>
                     </div>
                 </div>
-            <!-- <p>Total cages: {{ room.number_of_cages }}</p> -->
             </section>
             <br>
         {% endfor %}
         </div>
         <footer></footer>
         <script>
-            let currentName = ''
-            let userInputName = ''
             function openModal(ele){
-                currentName = $(ele).attr('value');
                 $('.ui.modal').modal('show');
             };
-            function confirmName(e){
-                userInputName = $('#current_name').val();
-                debugger
-                if(currentName != userInputName){
-                    e.preventDefault();
-                    $('#current_name').css("background-color","red");
-                    alert("The current room name you entered doesn't match. Please try again");
-                }
-            }
         </script>
     </body>
 </html>

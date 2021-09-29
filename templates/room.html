@@ -14,6 +14,13 @@
         <h1>You are now viewing the animals in {{room}} room</h1>
     </header>
     <section class="ui attached segment segments">
+    {% if error %}
+    <p style="background-color:red;text-align: center">{{ error }}</p>
+    {% endif %}
+    <br>
+    <a href="/"><h5>Return</h5></a>
+    <br>
+    <br>
     {% if cage_ids %}
         {% for key in cage_ids.keys() %} 
         <div style="width:95%" id="{{ room }} cage:{{ key }}" class="ui segment">  
@@ -39,7 +46,7 @@
         <div class="column">
             <h3>Animal Biographical Data Input Form</h3>
             <h5 style="color:red">All fields are required</h5>
-            <form class="ui form" method="POST" action="/add_animal">
+            <form class="ui form" method="POST" action="/{{ room }}/add_animal">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <div class="field">
                     {{ form.species.label }} {{ form.species(size=15) }}
@@ -55,15 +62,6 @@
                 <div class="field">
                     {{ form.cage.label }} {{ form.cage(size=1) }} <p id="selected-cage"></p>
                 </div>
-                <div>
-                    {% if form.cage.errors %}
-                        <ul class="errors">
-                        {% for error in form.cage %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
                 <br>
                 <div>
                     <button class="ui button" type="submit">Submit</button>
@@ -73,6 +71,7 @@
         </div>
     </div>
     <script>
+        debugger
         function openModal(ele){
             const cage = $(ele).attr('value');
             $("#selected-cage").html(`cage ${cage} currently selected`)
