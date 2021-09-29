@@ -20,37 +20,40 @@
         </div>
         {% endif %}
         <div class="ui attached segment segments">
+        <button class="mini ui brown basic button" onclick="openModal()">Update A Room Name</button>
+        <br>
+        <br>
         {% for room in rooms %}
-            <section class="ui segment">
-                <h3>Room name: <a href="/room/{{room.name}}">{{ room.name }}</a></h3>
-                <button class="mini ui brown basic right floated button" onclick="openModal(this)" value="{{ room.name }}">Change Room Name</button>
-                <div class="ui one column doubling stackable grid container modal">
-                    <div class="column">
-                        <h3>Change Name Form</h3>
-                        <form class="ui form" method="POST" action="/change_room_name">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-                            <div class="field">
-                                {{ form.current_name.label }} {{ form.current_name(size=15) }}
-                            </div>
-                            <div class="field">
-                                {{ form.new_name.label }} {{ form.new_name(size=15) }}
-                            </div>
-                            <br>
-                            <div>
-                                <button class="ui button" type="submit">Submit</button>
-                            </div>
-                            <br>
-                        </form>
-                    </div>
-                </div>
-            </section>
-            <br>
+        <section class="ui segment">
+            <h3>Room name: <a href="/room/{{room.name}}">{{ room.name }}</a></h3>
+            <!-- <button class="mini ui brown basic right floated button" onclick="openModal(this)" value="{{ room.name }}">Change Room Name</button> -->
+        </section>
+        <br>
         {% endfor %}
         </div>
-        <footer></footer>
+        <div class="ui grid mini modal">
+            <div class="column">
+                <h3>Room Name Update Form</h3>
+                <form class="ui form" method="POST" action="/change_room_name">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                    <div class="twelve wide field">
+                        {{ form.current_name.label }} {{ form.current_name(size=15) }}
+                    </div>
+                    <div class="twelve wide field">
+                        {{ form.new_name.label }} {{ form.new_name(size=15) }}
+                    </div>
+                    <br>
+                    <div>
+                        <button class="ui button" type="submit">Submit</button>
+                    </div>
+                    <br>
+                </form>
+            </div>
+        </div>
         <script>
             function openModal(ele){
-                $('.ui.modal').modal('show');
+                // $('.ui.modal').modal('show');
+                $('.mini.modal').modal('show');
             };
         </script>
     </body>
