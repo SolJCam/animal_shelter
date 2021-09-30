@@ -21,14 +21,14 @@ from forms import AnimalForm, RoomForm
 def get_cages(room):
     get_room = Room.query.filter_by(name=room).first()
     cages = Cage.query.filter_by(Room_id=get_room.id).all()
-    cage_ids = {}
+    cage_numbers = {}
     for cage in cages:
         animals = []
         for animal in Animal.query.filter_by(Cage_id=cage.id).all():
             animals.append(animal)
         if animals:
-            cage_ids[cage.id] = animals
-    return cage_ids
+            cage_numbers[cage.cage_number] = animals
+    return cage_numbers
 
 
 
@@ -74,14 +74,24 @@ def add_animal(room):
             form.gender.data,
             form.species.data,
         )
-        animal.Cage_id = form.cage.data
-        db.session.add(animal)
-        db.session.commit()
+        cage_exists = Cage.query.filter_by(cage_number=form.cage.data).first()
+        if bool(cage_exists) == True:
+            animal.Cage_id = cage_exists.id
+            db.session.add(animal)
+            db.session.commit()
+        else:
+            room_id = Room.query.filter_by(name=form.room.data).first().id
+            cage = Cage(form.cage.data)
+            cage.Room_id = room_id
+            db.session.add(cage)
+            db.session.commit()
+            # pdb.set_trace()
+            animal.Cage_id = cage.id
+            db.session.add(animal)
+            db.session.commit()
+
+            
         return redirect(url_for('enter_room', room=room))
-    # if 'cage' in form.errors:
-    #     error = form.cage.errors[0]
-    # else:
-    #     error = form.name.errors[0]
 
     error = form.cage.errors[0]
     return render_template('room.html', cage_ids=cage_ids, room=room, form=form, error=error)
