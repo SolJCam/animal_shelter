@@ -6,12 +6,6 @@ import pdb
 
 def current_cage(form, field):
     pdb.set_trace()
-    # current_cages = Cage.query.all()
-    # for cage in current_cages:
-    #     if cage.id == field.data:
-    #         cage_id = Cage.query.filter_by(id=field.data).first().id
-    #     else:
-    #         Cage.
     cage_id = Cage.query.filter_by(id=field.data).first().id
     animals = Animal.query.filter_by(Cage_id=cage_id).all()
     if len(animals) > 2:
@@ -32,7 +26,7 @@ def unique_room_name(form, field):
 
 
 class AnimalForm(Form):
-    name = StringField('Name', [validators.Length(min=2, max=15)])
+    name = StringField('Name or Id', [validators.Length(min=2, max=15)])
     # name = StringField('Name', [validators.Length(min=2, max=15), unique_animal_name])
     age = IntegerField('Age', [validators.NumberRange(min=0, max=100)])
     gender = SelectField(u'Gender', choices=['male', 'female'])

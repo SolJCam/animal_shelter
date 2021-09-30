@@ -15,7 +15,7 @@
     </header>
     <section class="ui attached segment segments">
     {% if error %}
-    <p style="background-color:red;text-align: center">{{ error }}</p>
+    <p style="background-color:red;padding-left: 50px">{{ error }}</p>
     {% endif %}
     <br>
     <a href="/"><h5>Return</h5></a>
@@ -33,6 +33,7 @@
                     <li>Species: {{ value.species }}</li>
                     <li>Age: {{ value.age }}</li>
                     <li>Gender: {{ value.gender }}</li>
+                    <li>Unique Id: {{ value.id }}</li>
                 </ul>        
             </div>
             {% endfor %}
@@ -45,7 +46,8 @@
     <div class="ui grid small modal">
         <div class="column">
             <h3>Animal Biographical Data Input Form</h3>
-            <h5 style="color:red">All fields are required</h5>
+            <!-- <h5 style="color:red">All fields are required</h5> -->
+            <h5 style="color:red">To remove, only Unique Id is required</h5>
             <form class="ui small form" method="POST" action="/{{ room }}/add_animal">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <div class="five wide field">

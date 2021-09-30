@@ -23,7 +23,7 @@ class Cage(db.Model):
     __tablename__ = 'cage'
 
     id = db.Column(db.Integer, primary_key=True)
-    cage_number = db.Column(db.Integer)
+    cage_number = db.Column(db.Integer, unique=True)
     animal = db.relationship('Animal', backref='Cage', lazy=True)
     Room_id = db.Column(db.Integer, db.ForeignKey('room.id'), nullable=False)
 
