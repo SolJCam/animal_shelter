@@ -1,15 +1,23 @@
-from wtforms import Form, StringField, IntegerField, SelectField, validators, ValidationError
+from wtforms import Form, StringField, IntegerField, SelectField, validators, ValidationError, Field
 from models import Room, Cage, Animal
 import pdb
 
 
 
-# def current_cage(form, field):
-#     pdb.set_trace()
-#     cage_id = Cage.query.filter_by(id=field.data).first().id
-#     animals = Animal.query.filter_by(Cage_id=cage_id).all()
-#     if len(animals) > 2:
-#         raise ValidationError('Please try a cage with fewer than 3 animals. The cage you selected is already full')
+
+class StringOrIntegerField(Field):
+    widget = StringField()
+
+    def either_or(self):
+        if self.data:
+            return self.data 
+
+    # def either_or(self):
+    #     if type(self.data) == str:
+    #         return self.data
+    #     elif type(self.data) == int:
+    #         return self.data
+
 
 def current_cage(form, field):
     # pdb.set_trace()
@@ -35,14 +43,13 @@ def unique_room_name(form, field):
 
 
 class AnimalForm(Form):
-    name = StringField('Name or Id', [validators.Length(min=2, max=15)])
+    name = StringOrIntegerField('Name or Id')
     # name = StringField('Name', [validators.Length(min=2, max=15), unique_animal_name])
     age = IntegerField('Age', [validators.NumberRange(min=0, max=100)])
     gender = SelectField(u'Gender', choices=['male', 'female'])
     species = StringField('Species', [validators.Length(min=3, max=20)])
     room = StringField('Room', [validators.Length(min=2, max=15)])
     cage = IntegerField('Cage', [current_cage])
-    # cage = IntegerField('Cage', [validators.NumberRange(min=0, max=len(number_of_cages)), current_cage])
 
 
 class RoomForm(Form):

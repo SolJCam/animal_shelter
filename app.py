@@ -68,6 +68,7 @@ def add_animal(room):
     cage_ids = get_cages(room)
     form = AnimalForm(request.form)
     if request.method == 'POST' and form.validate():
+        pdb.set_trace()
         animal = Animal(
             form.name.data, 
             form.age.data,
@@ -85,7 +86,6 @@ def add_animal(room):
             cage.Room_id = room_id
             db.session.add(cage)
             db.session.commit()
-            # pdb.set_trace()
             animal.Cage_id = cage.id
             db.session.add(animal)
             db.session.commit()
