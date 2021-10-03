@@ -81,13 +81,25 @@
     </div>
     <script>
         function openModal(ele){
+            window.extImg = ""
+	        window.lclImg = ""
             // debugger
             const values = $(ele).attr('value').split(",")
             const cage = values[0];
             const rm = values[1];
             $("#selected-cage").html(`Please confirm Room name and Cage # (currently: ${rm} room Cage # ${cage})`)
             $('.small.modal').modal('show');
-        };
+            
+            // extImg = $('input[type=url]').val();
+            // imgFile = $('input[type=file]')[0].files[0];
+            
+            // if(imgFile){
+            //     reader = new FileReader();
+            //     reader.onloadend = function () {
+            //         lclImg = reader.result;
+            //     };
+            //     lclImg = reader.readAsDataURL(imgFile);	
+    };
         $('.ui.radio.checkbox').checkbox();
     </script>
 </body>

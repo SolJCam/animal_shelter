@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, IntegerField, SelectField, validators, ValidationError, Field
+from wtforms import Form, StringField, IntegerField, SelectField, FileField, validators, ValidationError, Field
 from models import Room, Cage, Animal
 import pdb
 
@@ -6,17 +6,30 @@ import pdb
 
 
 class StringOrIntegerField(Field):
-    widget = StringField()
-
-    def either_or(self):
-        if self.data:
-            return self.data 
+    # widget = StringField()
 
     # def either_or(self):
-    #     if type(self.data) == str:
-    #         return self.data
-    #     elif type(self.data) == int:
-    #         return self.data
+    #     if self.data:
+    #         return self.data 
+
+    # # def either_or(self):
+    # #     if type(self.data) == str:
+    # #         return self.data
+    # #     elif type(self.data) == int:
+    # #         return self.data
+
+    widget = StringField()
+    def _value(self):
+        if self.data:
+            return u', '.join(self.data)
+        else:
+            return u''
+
+    def process_formdata(self, valuelist):
+        if valuelist:
+            self.data = [x.strip() for x in valuelist[0].split(',')]
+        else:
+            self.data = []
 
 
 def current_cage(form, field):
@@ -48,6 +61,7 @@ class AnimalForm(Form):
     age = IntegerField('Age', [validators.NumberRange(min=0, max=100)])
     gender = SelectField(u'Gender', choices=['male', 'female'])
     species = StringField('Species', [validators.Length(min=3, max=20)])
+    image = FileField(u'Image File')
     room = StringField('Room', [validators.Length(min=2, max=15)])
     cage = IntegerField('Cage', [current_cage])
 
