@@ -1,4 +1,7 @@
 from wtforms import Form, StringField, IntegerField, SelectField, FileField, validators, ValidationError, Field
+from wtforms.widgets import TextInput
+from wtforms.compat import text_type
+from wtforms.utils import unset_value
 from models import Room, Cage, Animal
 import pdb
 
@@ -6,30 +9,38 @@ import pdb
 
 
 class StringOrIntegerField(Field):
-    # widget = StringField()
+    widget = TextInput()
 
-    # def either_or(self):
-    #     if self.data:
-    #         return self.data 
-
-    # # def either_or(self):
-    # #     if type(self.data) == str:
-    # #         return self.data
-    # #     elif type(self.data) == int:
-    # #         return self.data
-
-    widget = StringField()
     def _value(self):
         if self.data:
-            return u', '.join(self.data)
+            return self.data
+        elif self.data is not None:
+            return text_type(self.data)
+        else: 
+            return ''
+
+    def process_data(self, value):
+        if value is not None and value is not unset_value:
+            try:
+                pdb.set_trace()
+                self.data = int(value)
+            except (ValueError, TypeError):
+                self.data =  str(value)
         else:
-            return u''
+            self.data = None
 
     def process_formdata(self, valuelist):
         if valuelist:
-            self.data = [x.strip() for x in valuelist[0].split(',')]
-        else:
-            self.data = []
+            try:
+                self.data = int(valuelist[0])
+            except ValueError:
+                self.data = valuelist[0]
+
+    # def process_formdata(self, valuelist):
+    #     if valuelist:
+    #         self.data = [x.strip() for x in valuelist[0].split(',')]
+    #     else:
+    #         self.data = []
 
 
 def current_cage(form, field):
