@@ -22,7 +22,6 @@ class StringOrIntegerField(Field):
     def process_data(self, value):
         if value is not None and value is not unset_value:
             try:
-                pdb.set_trace()
                 self.data = int(value)
             except (ValueError, TypeError):
                 self.data =  str(value)
@@ -35,12 +34,6 @@ class StringOrIntegerField(Field):
                 self.data = int(valuelist[0])
             except ValueError:
                 self.data = valuelist[0]
-
-    # def process_formdata(self, valuelist):
-    #     if valuelist:
-    #         self.data = [x.strip() for x in valuelist[0].split(',')]
-    #     else:
-    #         self.data = []
 
 
 def current_cage(form, field):

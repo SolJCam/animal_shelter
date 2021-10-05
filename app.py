@@ -67,8 +67,8 @@ def change_room_name():
 def add_animal(room):
     cage_ids = get_cages(room)
     form = AnimalForm(request.form)
+    # pdb.set_trace()
     if request.method == 'POST' and form.validate():
-        # pdb.set_trace()
         animal = Animal(
             form.name.data, 
             form.age.data,
@@ -92,6 +92,15 @@ def add_animal(room):
 
             
         return redirect(url_for('enter_room', room=room))
+
+    if request.method == 'POST' and type(form.name.data) == int:
+        if bool(Animal.query.filter_by(id=form.name.data).first().id) == True:
+            animal = Animal.query.filter_by(id=form.name.data).first()
+            # pdb.set_trace()
+            db.session.delete(animal)
+            db.session.commit()
+
+            return redirect(url_for('enter_room', room=room))
 
     error = form.cage.errors[0]
     return render_template('room.html', cage_ids=cage_ids, room=room, form=form, error=error)
