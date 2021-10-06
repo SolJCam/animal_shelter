@@ -48,7 +48,7 @@
             <h3>Animal Biographical Data Input Form</h3>
             <!-- <h5 style="color:red">All fields are required</h5> -->
             <h5 style="color:red">To remove, only Unique Id is required</h5>
-            <form class="ui small form" method="POST" action="/{{ room }}/add_animal">
+            <form class="ui small form" method="POST" enctype="multipart/form-data" action="/{{ room }}/add_animal">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
                 <div class="five wide field">
                     {{ form.name.label }} {{ form.name(size=15) }}
@@ -61,6 +61,9 @@
                 </div>
                 <div class="four wide field">
                     {{ form.species.label }} {{ form.species(size=15) }}
+                </div>
+                <div class="five wide field">
+                    {{ form.image_upload.label }} {{ form.image_upload(size=15) }}
                 </div>
                 <h5 style="color:purple" id="selected-cage"  class="ui dividing header"></h5>
                 <div class="fields">
@@ -81,8 +84,6 @@
     </div>
     <script>
         function openModal(ele){
-            window.extImg = ""
-	        window.lclImg = ""
             // debugger
             const values = $(ele).attr('value').split(",")
             const cage = values[0];
@@ -90,7 +91,14 @@
             $("#selected-cage").html(`Please confirm Room name and Cage # (currently: ${rm} room Cage # ${cage})`)
             $('.small.modal').modal('show');
             
-            // extImg = $('input[type=url]').val();
+        };
+
+        $('.ui.radio.checkbox').checkbox();
+        
+        
+   
+        // $(document).ready(function(){
+            // window.lclImg = ""
             // imgFile = $('input[type=file]')[0].files[0];
             
             // if(imgFile){
@@ -99,8 +107,18 @@
             //         lclImg = reader.result;
             //     };
             //     lclImg = reader.readAsDataURL(imgFile);	
-    };
-        $('.ui.radio.checkbox').checkbox();
+            // if (imgFile) {
+            //     member = {
+            //         "name": name,
+            //         "pic": lclImg
+            //     }
+            // } else {
+            //     member = {
+            //         "name": name,
+            //         "pic": "no image"
+            //     }
+            // }
+        // }
     </script>
 </body>
 </html>

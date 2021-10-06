@@ -44,7 +44,7 @@ class Animal(db.Model):
     age = db.Column(db.Integer)
     gender = db.Column(db.String(6))
     species = db.Column(db.String(15))
-    # image = db.Column(db.Text)
+    image = db.Column(db.Text)
     Cage_id = db.Column(db.Integer, db.ForeignKey('cage.id'), nullable=False)
 
     def __init__(self, name, age, gender, species):

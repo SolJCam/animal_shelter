@@ -2,6 +2,8 @@ from wtforms import Form, StringField, IntegerField, SelectField, FileField, val
 from wtforms.widgets import TextInput
 from wtforms.compat import text_type
 from wtforms.utils import unset_value
+from flask_uploads import UploadSet, IMAGES
+from flask_wtf.file import FileAllowed
 from models import Room, Cage, Animal
 import pdb
 
@@ -37,7 +39,6 @@ class StringOrIntegerField(Field):
 
 
 def current_cage(form, field):
-    # pdb.set_trace()
     cage_exists = Cage.query.filter_by(cage_number=field.data).first()
     if bool(cage_exists) == True:
         cage_id = cage_exists.id
@@ -52,6 +53,7 @@ def current_cage(form, field):
 
 number_of_cages = Cage.query.all()
 
+images = UploadSet('images', IMAGES)
 
 def unique_room_name(form, field):
     is_room_name_taken = Room.query.filter_by(name=field.data).first()
@@ -65,7 +67,7 @@ class AnimalForm(Form):
     age = IntegerField('Age', [validators.NumberRange(min=0, max=100)])
     gender = SelectField(u'Gender', choices=['male', 'female'])
     species = StringField('Species', [validators.Length(min=3, max=20)])
-    image = FileField(u'Image File')
+    image_upload = FileField(u'Photo', validators=[FileAllowed(images, 'Images only!')])
     room = StringField('Room', [validators.Length(min=2, max=15)])
     cage = IntegerField('Cage', [current_cage])
 

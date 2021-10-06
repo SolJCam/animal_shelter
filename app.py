@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import CombinedMultiDict
 from config import env_config_classes 
 import os, pdb
 
@@ -67,8 +69,14 @@ def change_room_name():
 def add_animal(room):
     cage_ids = get_cages(room)
     form = AnimalForm(request.form)
-    # pdb.set_trace()
+    photo = AnimalForm(CombinedMultiDict((request.files,request.form)))
+    # if request.method == 'POST' and form.validate_on_submit():
     if request.method == 'POST' and form.validate():
+        # pdb.set_trace()
+        if bool(photo.image_upload.data):
+            f = photo.image_upload.data
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.instance_path, 'photos', filename))
         animal = Animal(
             form.name.data, 
             form.age.data,
@@ -96,7 +104,6 @@ def add_animal(room):
     if request.method == 'POST' and type(form.name.data) == int:
         if bool(Animal.query.filter_by(id=form.name.data).first().id) == True:
             animal = Animal.query.filter_by(id=form.name.data).first()
-            # pdb.set_trace()
             db.session.delete(animal)
             db.session.commit()
 
