@@ -19,6 +19,13 @@
             <p style="background-color:red;padding-left: 50px">{{ error }}</p>
         </div>
         {% endif %}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="background-color:lightgreen;padding-left: 50px">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <div class="ui attached segment segments">
         <button class="mini ui brown basic button" onclick="openModal()">Update A Room Name</button>
         <br>

@@ -18,6 +18,14 @@
     <p style="background-color:red;padding-left: 50px">{{ error }}</p>
     {% endif %}
     <br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="background-color:lightgreen;padding-left: 50px">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <br>
     <a href="/"><h5>Return</h5></a>
     <br>
     <br>
@@ -28,16 +36,22 @@
             <button class="ui button" onclick="openModal(this)" value="{{ key }}, {{ room }}">Add/Remove animal</button>
             {% for value in cage_ids[key] %}
             <div class="ui segment">
-                <p>Name: {{ value.name }}</p>
-                <ul>
-                    <li>Species: {{ value.species }}</li>
-                    <li>Age: {{ value.age }}</li>
-                    <li>Gender: {{ value.gender }}</li>
-                    <li>Unique Id: {{ value.id }}</li>
-                </ul>
-                {% if value.image %}
-                    <img class="ui small image" src="{{ url_for('static', filename=value.image) }}">
-                {% endif %}
+                <div class="ui grid">
+                    <div class="four wide column">
+                        <p>Name: {{ value.name }}</p>
+                        <ul>
+                            <li>Species: {{ value.species }}</li>
+                            <li>Age: {{ value.age }}</li>
+                            <li>Gender: {{ value.gender }}</li>
+                            <li>Unique Id: {{ value.id }}</li>
+                        </ul>
+                    </div>
+                    <div class="four wide column">
+                        {% if value.image %}
+                            <img class="ui small image" src="{{ url_for('static', filename=value.image) }}">
+                        {% endif %}
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>

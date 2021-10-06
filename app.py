@@ -30,7 +30,6 @@ def get_cages(room):
             animals.append(animal)
         if animals:
             cage_numbers[cage.cage_number] = animals
-    # pdb.set_trace()
     return cage_numbers
 
 
@@ -57,6 +56,7 @@ def change_room_name():
     form = RoomForm(request.form)
     if request.method == 'POST' and form.validate():
         room = Room.query.filter_by(name=form.current_name.data).first()
+        pdb.set_trace()
         room.name = form.new_name.data
         db.session.merge(room)
         db.session.commit()
@@ -110,6 +110,7 @@ def add_animal(room):
             db.session.delete(animal)
             db.session.commit()
 
+            flash('Animal removed!')    
             return redirect(url_for('enter_room', room=room))
 
     error = form.cage.errors[0]

@@ -58,7 +58,7 @@ images = UploadSet('images', IMAGES)
 def unique_room_name(form, field):
     is_room_name_taken = Room.query.filter_by(name=field.data).first()
     if is_room_name_taken:
-        raise ValidationError(f"Please try a different name. {field.data} is already being used")
+        raise ValidationError(f"Please provide a different name. {field.data} is already being used")
 
 
 class AnimalForm(Form):
