@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from werkzeug.utils import secure_filename
@@ -30,6 +30,7 @@ def get_cages(room):
             animals.append(animal)
         if animals:
             cage_numbers[cage.cage_number] = animals
+    # pdb.set_trace()
     return cage_numbers
 
 
@@ -59,6 +60,7 @@ def change_room_name():
         room.name = form.new_name.data
         db.session.merge(room)
         db.session.commit()
+        flash('Room name successfully updated!')    
         return redirect(url_for('index'))
     error = form.new_name.errors[0]
     return render_template('index.html', rooms=rooms, form=form, error=error)
@@ -72,7 +74,6 @@ def add_animal(room):
     photo = AnimalForm(CombinedMultiDict((request.files,request.form)))
     # if request.method == 'POST' and form.validate_on_submit():
     if request.method == 'POST' and form.validate():
-        # pdb.set_trace()
         animal = Animal(
             form.name.data, 
             form.age.data,
@@ -82,9 +83,8 @@ def add_animal(room):
         if bool(photo.image_upload.data):
             f = photo.image_upload.data
             filename = secure_filename(f.filename)
-            f.save(os.path.join(app.instance_path, 'photos', filename))
-            image_path = os.path.join(app.instance_path, 'photos', filename)
-            animal.image = image_path
+            f.save(os.path.join(app.root_path, 'static', filename))
+            animal.image = filename
 
         cage_exists = Cage.query.filter_by(cage_number=form.cage.data).first()
         if bool(cage_exists) == True:
@@ -101,7 +101,7 @@ def add_animal(room):
             db.session.add(animal)
             db.session.commit()
 
-            
+        flash('Animal successfully added!')    
         return redirect(url_for('enter_room', room=room))
 
     if request.method == 'POST' and type(form.name.data) == int:

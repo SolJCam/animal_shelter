@@ -34,7 +34,10 @@
                     <li>Age: {{ value.age }}</li>
                     <li>Gender: {{ value.gender }}</li>
                     <li>Unique Id: {{ value.id }}</li>
-                </ul>        
+                </ul>
+                {% if value.image %}
+                    <img class="ui small image" src="{{ url_for('static', filename=value.image) }}">
+                {% endif %}
             </div>
             {% endfor %}
         </div>
