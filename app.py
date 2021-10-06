@@ -73,16 +73,19 @@ def add_animal(room):
     # if request.method == 'POST' and form.validate_on_submit():
     if request.method == 'POST' and form.validate():
         # pdb.set_trace()
-        if bool(photo.image_upload.data):
-            f = photo.image_upload.data
-            filename = secure_filename(f.filename)
-            f.save(os.path.join(app.instance_path, 'photos', filename))
         animal = Animal(
             form.name.data, 
             form.age.data,
             form.gender.data,
             form.species.data,
         )
+        if bool(photo.image_upload.data):
+            f = photo.image_upload.data
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.instance_path, 'photos', filename))
+            image_path = os.path.join(app.instance_path, 'photos', filename)
+            animal.image = image_path
+
         cage_exists = Cage.query.filter_by(cage_number=form.cage.data).first()
         if bool(cage_exists) == True:
             animal.Cage_id = cage_exists.id
