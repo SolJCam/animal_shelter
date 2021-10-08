@@ -13,8 +13,8 @@ You will need to have a Postgres database, python3.9 and pip installed on you lo
 
 ### Step One: Cloning the database
 
-Clone the repo, using the following url:
-https://github.com/SolJCam/animal_shelter.git
+To clone the repo, open terminal, navigate to the directory where you wish to run the app, and excute the following command:
+``` git clone https://github.com/SolJCam/animal_shelter.git```
 
 
 ### Step Two: Setting up Dependencies
