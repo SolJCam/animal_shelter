@@ -57,7 +57,7 @@ def change_room_name():
         room = Room.query.filter_by(name=form.current_name.data).first()
         
         if bool(room) == False:
-            error = f"There is on room named {form.current_name.data}. Please try again"
+            error = f"There is no room named {form.current_name.data}. Please try again"
             return render_template('index.html', rooms=rooms, form=form, error=error)
 
         room.name = form.new_name.data
