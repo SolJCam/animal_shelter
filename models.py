@@ -40,7 +40,8 @@ class Animal(db.Model):
     __tablename__ = 'animal'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15), unique=True)
+    name = db.Column(db.String(15))
+    # name = db.Column(db.String(15), unique=True)
     age = db.Column(db.Integer)
     gender = db.Column(db.String(6))
     species = db.Column(db.String(15))

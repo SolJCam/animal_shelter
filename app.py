@@ -55,14 +55,23 @@ def change_room_name():
     rooms = Room.query.all()
     form = RoomForm(request.form)
     if request.method == 'POST' and form.validate():
+        # try:
         room = Room.query.filter_by(name=form.current_name.data).first()
-        pdb.set_trace()
+        
+        if bool(room) == False:
+            error = f"There is on room named {form.current_name.data}. Please try again"
+            return render_template('index.html', rooms=rooms, form=form, error=error)
+
         room.name = form.new_name.data
         db.session.merge(room)
         db.session.commit()
         flash('Room name successfully updated!')    
         return redirect(url_for('index'))
-    error = form.new_name.errors[0]
+        # except AttributeError as e:
+        #     error = [f"There is on room named {form.current_name.data}. Please try again"]
+        #     print(e)
+    pdb.set_trace()
+    error = [form.new_name.errors[0]]
     return render_template('index.html', rooms=rooms, form=form, error=error)
 
 
@@ -105,13 +114,26 @@ def add_animal(room):
         return redirect(url_for('enter_room', room=room))
 
     if request.method == 'POST' and type(form.name.data) == int:
-        if bool(Animal.query.filter_by(id=form.name.data).first().id) == True:
-            animal = Animal.query.filter_by(id=form.name.data).first()
-            db.session.delete(animal)
-            db.session.commit()
+        try:
+            if bool(Animal.query.filter_by(id=form.name.data).first().id) == True:
+                animal = Animal.query.filter_by(id=form.name.data).first()
+                db.session.delete(animal)
+                db.session.commit()
 
-            flash('Animal removed!')    
-            return redirect(url_for('enter_room', room=room))
+                flash(f'{animal.name}, Unique ID# {form.name.data}, successfully removed!')    
+                return redirect(url_for('enter_room', room=room))
+        except AttributeError:
+            print(AttributeError)
+            error = [f"Unique Id {form.name.data} does not exist. Please try again."]   
+            return render_template('room.html', cage_ids=cage_ids, room=room, form=form, error=error)         
 
-    error = form.cage.errors[0]
+    error = []
+
+    if form.name.data == '':
+        error.append("name : Field must be between 2 and 15 characters long.") 
+    for item in form._fields.items(): 
+        try:
+            error.append(item[0]+" : "+form.errors[item[0]][0])
+        except KeyError as e:
+            print(f"No {e} error")
     return render_template('room.html', cage_ids=cage_ids, room=room, form=form, error=error)
