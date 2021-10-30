@@ -7,7 +7,8 @@ from config import env_config_classes
 import os, pdb
 
 app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
+# app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object(env_config_classes.DevelopmentConfig)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 
@@ -53,7 +54,6 @@ def change_room_name():
     rooms = Room.query.all()
     form = RoomForm(request.form)
     if request.method == 'POST' and form.validate():
-        # try:
         room = Room.query.filter_by(name=form.current_name.data).first()
         
         if bool(room) == False:
@@ -65,10 +65,6 @@ def change_room_name():
         db.session.commit()
         flash('Room name successfully updated!')    
         return redirect(url_for('index'))
-        # except AttributeError as e:
-        #     error = [f"There is on room named {form.current_name.data}. Please try again"]
-        #     print(e)
-    pdb.set_trace()
     error = [form.new_name.errors[0]]
     return render_template('index.html', rooms=rooms, form=form, error=error)
 
@@ -79,7 +75,6 @@ def add_animal(room):
     cage_ids = get_cages(room)
     form = AnimalForm(request.form)
     photo = AnimalForm(CombinedMultiDict((request.files,request.form)))
-    # if request.method == 'POST' and form.validate_on_submit():
     if request.method == 'POST' and form.validate():
         animal = Animal(
             form.name.data, 

@@ -44,7 +44,7 @@ def current_cage(form, field):
         cage_id = cage_exists.id
         animals = Animal.query.filter_by(Cage_id=cage_id).all()
         if len(animals) > 2:
-            raise ValidationError(f'Please try a cage with fewer than 3 animals. Cage {field.data} is already full')
+            raise ValidationError(f"Please try a cage with fewer than 3 animals. Cage {field.data} is already full")
 
 # def unique_animal_name(form, field):
 #     is_name_taken = Animal.query.filter_by(name=field.data).first()
